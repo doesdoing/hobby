@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>
+			demo
+		</title>
+		<meta name="description" content="这是一个 login 页面">
+		<meta name="keywords" content="index">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="renderer" content="webkit">
+		<link rel="stylesheet" href="assets/css/amazeui.min.css" />
+		<style>
+			body{ background: #000; z-index: -1000; height:100% } .body{ padding:
+			5%; width: 100%; height: 100%; padding: 15%; top: 0; left: 0; margin: 0
+			auto; background: rgba(000, 000, 000, 0.1); opacity:0; transition: 1s ease-in-out;
+			position: fixed; } .body:hover{ opacity:1; } #bgvid { position: fixed;
+			top: 0; left: 0; z-index: -100; width: 100%; background-size: cover; background:
+			transparent repeat; } #a1{ width: 550px; margin: 0 auto }
+		</style>
+	</head>
+	<body>
+		<video poster="./assets/img/123.jpg" id="bgvid" autoplay="true" preload="true">
+			<source src="http://localhost/login/bg/mp4" type="video/mp4">
+		</video>
+		<div id="body" class="body">
+			<div id="a1">
+				<h1 align="center" style="font-size:40px;color: white">
+					MY SYSTEM
+				</h1>
+				<div class="am-input-group am-input-group-primary">
+					<span class="am-input-group-label">
+						<i class="am-icon-user am-icon-fw">
+						</i>
+					</span>
+					<input type="text" id="username" class="am-form-field" placeholder="Username">
+				</div>
+				<div>
+					&emsp;
+				</div>
+				<div class="am-input-group am-input-group-success">
+					<span class="am-input-group-label">
+						<i class="am-icon-lock am-icon-fw">
+						</i>
+					</span>
+					<input class="am-form-field" type="password" placeholder="Password" name="password"
+					id="password">
+					<span class="am-input-group-btn">
+						<button class="am-btn am-btn-primary" type="button" id="button">
+							登陆
+						</button>
+					</span>
+				</div>
+			</div>
+		</div>
+		<script src="assets/js/base64.js">
+		</script>
+		<script src="assets/js/jquery.min.js">
+		</script>
+		<script src="assets/js/amazeui.min.js">
+		</script>
+		<script>
+			window.onload = function() {
+				var videow = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+				var videoh = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+				var video = document.getElementById('bgvid') video.style.height = videoh + 'px';
+				video.style.width = videow + 'px';
+				console.log(videoh);
+				console.log(videow);
+				var b = new Base64();
+
+				function login() {
+					var html = b.decode('aHR0cDovLzE5Mi4xNjguMTUuMTI5L2xvZ2lu');
+					var url = b.decode('aHR0cDovLzE5Mi4xNjguMTUuMTI5L2FkbWluCg==');
+					var U = b.encode(document.getElementById("username").value);
+					var P = b.encode(document.getElementById("password").value);
+					$.ajax({
+						type: "POST",
+						url: html,
+						data: {
+							name: U,
+							pass: P
+						},
+						dataType: "text",
+						async: true,
+						success: function(data) {
+							if (data == "ok") {
+								window.location.href = url;
+							};
+						},
+						error: function(err) {
+							console.log(err);
+						}
+					})
+				}
+				$("#button").click(function() {
+					login();
+				})
+
+				function keyProcess(e) {
+					var e = e || event;
+					var currentKey = e.keyCode || e.which || e.charCode;
+					if (currentKey == 13) {
+						login();
+					};
+				};
+				document.onkeydown = keyProcess;
+			}
+		</script>
+	</body>
+
+</html>
